@@ -8,6 +8,6 @@ docker cp ./.config/laravel/.htaccess app:/var/www/html/.htaccess
 
 #start service and add dependencies and add a key to laravel
 docker-compose up --build -d
-docker-compose exec app php artisan key:generate
 docker-compose exec app composer install
 docker-compose exec app chown -R www-data: .
+docker-compose exec app php artisan key:generate
