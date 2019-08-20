@@ -1,0 +1,47 @@
+version: '3'
+services:
+
+  #PHP Service
+  app:
+    build:
+      context: .
+      dockerfile: .config/php/Dockerfile
+    image: salvio/php-composer-dev
+    container_name: app
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    working_dir: /var/www/html
+    ports:
+      - "80:80"
+    volumes:
+      - ./code/:/var/www/html
+      - .config/php/php.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - myproject-network
+
+  #MySQL Service
+  db:
+    image: mysql:latest
+    container_name: db
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: myproject
+      MYSQL_ROOT_PASSWORD: secret
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - ./.config/mysql/data:/var/lib/mysql
+      - ./.config/mysql/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - myproject-network
+
+#Docker Networks
+networks:
+  myproject-network:
+    driver: bridge
