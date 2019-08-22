@@ -49,8 +49,29 @@ services:
     tty: true
     ports:
       - "6379:6379"
+    environment:
+      SERVICE_TAGS: dev
+      SERVICE_NAME: redis
     volumes:
       - ./.config/redis/redis.conf:/usr/local/etc/redis/redis.conf
+    networks:
+      - myproject-network
+
+    #MAILCATCHER Service
+  mailcatcher:
+    build:
+      context: .
+      dockerfile: .config/mailcatcher/Dockerfile
+    image: salvio/mailcatcher-dev
+    container_name: mailcatcher
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "1080:1080"
+      - "1025:1025"
+    environment:
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mailcatcher
     networks:
       - myproject-network
 
