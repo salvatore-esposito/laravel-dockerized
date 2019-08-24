@@ -1,9 +1,9 @@
-FROM php:7.3-apache
+FROM php:7.3
 
 LABEL maintainer="salvatore.esposito78@gmail.com"
 
 # Set working directory
-WORKDIR /var/www/html
+#WORKDIR /var/www/html
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \
@@ -19,9 +19,6 @@ RUN apt-get update && apt-get install -y \
     unzip \
     git \
     curl
-
-# Enable apache modules
-RUN a2enmod rewrite
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -47,4 +44,4 @@ mv composer.phar /usr/local/bin/composer
 #USER www-data
 
 # Expose port 9000 and start php-fpm server
-EXPOSE 80
+# EXPOSE 8000

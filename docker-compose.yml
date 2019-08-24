@@ -15,9 +15,9 @@ services:
       SERVICE_TAGS: dev
     working_dir: /var/www/html
     ports:
-      - "80:80"
+      - "8000:8000"
     volumes:
-      - ./code/:/var/www/html
+      - ./code:/var/www/html
       - .config/php/php.ini:/usr/local/etc/php/conf.d/local.ini
     networks:
       - myproject-network
