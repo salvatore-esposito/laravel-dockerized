@@ -36,6 +36,14 @@ php composer-setup.php && \
 php -r "unlink('composer-setup.php');" && \
 mv composer.phar /usr/local/bin/composer
 
+RUN apt-get update && apt-get install -y \
+  && curl -sL https://deb.nodesource.com/setup_10.x | bash \
+  && apt-get install nodejs -y
+
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+RUN apt update && apt install yarn -y
+
 
 # Copy existing application directory permissions
 #COPY --chown=www-data:www-data ./code /var/www/html

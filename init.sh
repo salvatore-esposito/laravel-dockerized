@@ -4,7 +4,7 @@ git clone https://github.com/laravel/laravel.git ./code
 
 docker-compose up --build -d
 docker-compose exec app composer install
-docker cp ./code/.env.example app:/var/www/html/.env
+docker cp ./.config/laravel/.env app:/var/www/html/.env
 docker-compose exec app php artisan key:generate
 
 #to start php laravel internal server on all ip numbers digit:
