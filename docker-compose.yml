@@ -7,7 +7,6 @@ services:
       context: .
       dockerfile: .config/php/Dockerfile
     image: salvio/php-composer-dev
-    container_name: app
     restart: unless-stopped
     tty: true
     environment:
@@ -15,17 +14,18 @@ services:
       SERVICE_TAGS: dev
     working_dir: /var/www/html
     ports:
-      - "8000:8000"
+      - "3000:3000"
+      - "3001:3001"
     volumes:
       - ./code:/var/www/html
       - .config/php/php.ini:/usr/local/etc/php/conf.d/local.ini
+      - .config/php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
     networks:
       - myproject-network
 
   #MySQL Service
   db:
-    image: mysql:latest
-    container_name: db
+    image: mysql:5.7.22
     restart: unless-stopped
     tty: true
     ports:
@@ -37,14 +37,13 @@ services:
       SERVICE_NAME: mysql
     volumes:
       - data-mysql:/var/lib/mysql
-      - /base/laravel/.config/mysql/conf/my.cnf:/etc/mysql/my.cnf
+      - .config/mysql/conf/my.cnf:/etc/mysql/my.cnf
     networks:
       - myproject-network
 
   #REDIS Service
   redis:
     image: redis:latest
-    container_name: redis
     restart: unless-stopped
     tty: true
     ports:
@@ -63,7 +62,6 @@ services:
       context: .
       dockerfile: .config/mailcatcher/Dockerfile
     image: salvio/mailcatcher-dev
-    container_name: mailcatcher
     restart: unless-stopped
     tty: true
     ports:
